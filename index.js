@@ -1,6 +1,6 @@
 "use strict";
 
-// include the node.js native http package 
+// include the node.js native http package
 var http = require('http');
 var https = require('https');
 
@@ -8,7 +8,7 @@ var https = require('https');
 var Flickr = require("node-flickr");
 
 // flickr app key
-var keys = {"api_key": "YOUR FLICKR KEY"}
+var keys = {"api_key": "865d867c73ea287257aa92513c7d1922"}
 
 // initialize the Flickr client
 var flickr = new Flickr(keys);
@@ -17,12 +17,12 @@ var flickr = new Flickr(keys);
 var TelegramBot = require('node-telegram-bot-api');
 
 // Telegram bot token (given when you create a new bot using the BotFather);
-var telegramBotToken = 'YOUR BOT TOKEN';
+var telegramBotToken = '592591100:AAHyPOVC6wos-utH7uZWc8Tk3KFJDEDD-f8';
 
 // Telegram bot setup
-var telegramBot = new TelegramBot(telegramBotToken, {polling: false});    
+var telegramBot = new TelegramBot(telegramBotToken, {polling: false});
 
-// By default, handler is called when the Lambda function is run.  
+// By default, handler is called when the Lambda function is run.
 // 'event' contains all of the information about the request, including the Telegram user's info and their message
 // See the 'sample-message.json' file for an example
 exports.handler = function(event, context, lambdaCallback) {
@@ -30,7 +30,7 @@ exports.handler = function(event, context, lambdaCallback) {
 
     // parse the chat ID so we can respond
     var chatId = JSON.parse(event.body).message.chat.id;
-    
+
     // let them know we're working
     telegramBot.sendMessage(chatId, "Howdy! I'm fetching your images, just one second...");
 
@@ -46,13 +46,13 @@ exports.handler = function(event, context, lambdaCallback) {
 
             // get the photo JSON object we are working with
             var photo = result.photos.photo[x];
-            
+
             // Fetch the binary image buffer from flickr
             getImageBuffer(photo, function(err, photo, buffer) {
 
                 // build a URL so the user can visit the photos page if they like
                 var photoUrl = "https://www.flickr.com/photos/" + photo.owner + "/" + photo.id;
-                
+
                 // build the caption using the photo title and url
                 var caption = photo.title + "\n" + photoUrl;
 
@@ -80,7 +80,7 @@ function getImageBuffer(photo, callback) {
 
     // request the image from flickr
     var req = https.get(photo.url_m, function(res) {
-        
+
         // the data will come as Buffers in chunks.  We setup an array to hold all of the chunks
         var data = [ ];
 
